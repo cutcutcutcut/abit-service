@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить абитуриента</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/addStyle.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+</head>
+<body class="text-center">
+
+<div class="table-container">
+<table class="table table-striped">
+  <thead>
+  <tr class="table-primary">
+    <th>Id</th>
+    <th>ФИО</th>
+    <th>Предметы</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="table-primary" th:each="abit : ${abits}">
+    <td><span th:text="${abit.id}"></span></td>
+    <td><span th:text="${abit.name}"></span></td>
+    <td><span th:text="${abit.subjects}"></span></td>
+  </tr>
+  </tbody>
+</table>
+</div>
+<form class="add-form" method="post">
+  <input type="text" name="name" placeholder="Введите ФИО" required>
+  <select name="select">
+    <option disabled selected>выберите предметы</option>
+    <option>Русский, Математика, Физика</option>
+    <option>Русский, Обществознание, История</option>
+    <option>Русский, Биология, Химия</option>
+    <option>Русский, Химия, Обществознание</option>
+    <option>Русский, Математика, Информатика</option>
+  </select>
+  <button class="btn btn-primary" type="submit">Добавить</button>
+</form>
+
+</body>
+</html>

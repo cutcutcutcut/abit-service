@@ -21,18 +21,23 @@ public class MainController {
         return "emptyMapping";
     }
 
-    @GetMapping("/abit-service")
+    @GetMapping("/abits")
     public String testDb(Model model) {
         model.addAttribute("abits", abitRepo.findAll());
-        return "main";
+        return "addTable";
     }
 
-    @PostMapping("/abit-service")
-    public String addAbit(@RequestParam String name, @RequestParam String subjects, Model model) {
+    @PostMapping("/abits")
+    public String addAbit(@RequestParam String name, @RequestParam(value = "select") String subjects, Model model) {
         Abit abit = new Abit(name, subjects);
         abitRepo.save(abit);
         model.addAttribute("abits", abitRepo.findAll());
-        return "main";
+        return "addTable";
+    }
+
+    @GetMapping("/abit-service")
+    public String showService() {
+        return "abitService";
     }
 
 
