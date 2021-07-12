@@ -22,14 +22,14 @@
   </thead>
   <tbody>
   <tr class="table-primary" th:each="abit : ${abits}">
-    <td><span th:text="${abit.id}"></span></td>
+    <td><span th:text="${abit.idabit}"></span></td>
     <td><span th:text="${abit.name}"></span></td>
     <td><span th:text="${abit.subjects}"></span></td>
   </tr>
   </tbody>
 </table>
 </div>
-<form class="add-form" method="post">
+<form class="add-form" method="post" action="/add-abit">
   <input type="text" name="name" placeholder="Введите ФИО" required>
   <select name="select">
     <option disabled selected>выберите предметы</option>
@@ -39,6 +39,18 @@
     <option>Русский, Химия, Обществознание</option>
     <option>Русский, Математика, Информатика</option>
   </select>
+  <button class="btn btn-primary" type="submit">Добавить</button>
+</form>
+
+<form class="add-form" method="post" action="/add-results">
+  <input type="number" name="id" placeholder="Введите id" required>
+  <select name="selectResults">
+    <option disabled selected>выберите предмет</option>
+    <option>Русский</option>
+    <option>Математика</option>
+    <option>Физика</option>
+  </select>
+  <input type="number" name="result" placeholder="Введите балл" required>
   <button class="btn btn-primary" type="submit">Добавить</button>
 </form>
 

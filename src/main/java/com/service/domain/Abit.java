@@ -1,17 +1,18 @@
 package com.service.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "abits")
 public class Abit {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id; //uuid later
+    @Column(name = "idabit")
+    private Integer idabit;
 
+    @Column(name = "name")
     private String name;
+    @Column(name = "subjects")
     private String subjects;
 
     public Abit() {}
@@ -21,12 +22,12 @@ public class Abit {
         this.subjects = subjects;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdabit() {
+        return idabit;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdabit(Integer idabit) {
+        this.idabit = idabit;
     }
 
     public String getName() {
@@ -48,7 +49,7 @@ public class Abit {
     @Override
     public String toString() {
         return "Abit{" +
-                "id=" + id +
+                "idabit=" + idabit +
                 ", name='" + name + '\'' +
                 ", subjects='" + subjects + '\'' +
                 '}';
