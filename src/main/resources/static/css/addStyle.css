@@ -1,4 +1,19 @@
 .table-container{
-    padding: 1.5rem 5% 1rem;
-    border: black;
+    padding: 6rem 5% 1rem;
+}
+
+.add-form {
+    padding-bottom: 1.5rem;
+}
+
+.add-select, .add-input {
+    height: 38px;
+    width: 300px;
+    border-radius: 5px;
+    border: none;
+}
+
+.add-btn {
+    margin-bottom: 5px;
+    width: 145px;
 }

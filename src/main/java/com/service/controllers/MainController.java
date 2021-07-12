@@ -51,7 +51,7 @@ public class MainController {
     }
 
     @PostMapping("/add-results")
-    public String addResults(@RequestParam Integer id, @RequestParam(value = "selectResults") String subject, @RequestParam Integer result, Model model) {
+    public String addResults(@RequestParam Integer id, @RequestParam(value = "selectResults") String subject, @RequestParam Integer result, Model model1 ) {
         if(abitRepo.findById(id).isPresent()){
             switch (subject){
                 case "Русский": {
@@ -77,7 +77,7 @@ public class MainController {
                 }
             }
         }
-        model.addAttribute("abits", abitRepo.findAll());
+        model1.addAttribute("abits", abitRepo.findAll());
         return "addTable";
     }
 
