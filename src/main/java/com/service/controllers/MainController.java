@@ -58,21 +58,21 @@ public class MainController {
         if(abitRepo.findById(id).isPresent()){
             switch (subject){
                 case "Русский": {
-                    if (rusResRepo.findByIdabit(abitRepo.findById(id).get()) == null) {
+                    if (rusResRepo.findByIdabit(abitRepo.findById(id).get()) == null && abitRepo.findById(id).get().getSubjects().contains("Русский")) {
                         RusRes rusRes = new RusRes(abitRepo.findById(id).get(), result);
                         rusResRepo.save(rusRes);
                     }
                     break;
                 }
                 case "Математика" : {
-                    if(mathResRepo.findByIdabit(abitRepo.findById(id).get()) == null) {
+                    if(mathResRepo.findByIdabit(abitRepo.findById(id).get()) == null && abitRepo.findById(id).get().getSubjects().contains("Математика")) {
                         MathRes mathRes = new MathRes(abitRepo.findById(id).get(), result);
                         mathResRepo.save(mathRes);
                     }
                     break;
                 }
                 case "Физика" : {
-                    if (physResRepo.findByIdabit(abitRepo.findById(id).get()) == null){
+                    if (physResRepo.findByIdabit(abitRepo.findById(id).get()) == null && abitRepo.findById(id).get().getSubjects().contains("Физика")){
                         PhysRes physRes = new PhysRes(abitRepo.findById(id).get(), result);
                         physResRepo.save(physRes);
                     }
