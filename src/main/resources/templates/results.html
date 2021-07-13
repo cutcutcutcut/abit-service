@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Сервис</title>
@@ -29,14 +29,21 @@
     </nav>
 </header>
 
-<form class="add-form toform" method="post" action="/view-results">
-    <select class="add-select" name="serviceSelect">
-        <option disabled selected>Выберите предмет</option>
-        <option>Русский</option>
-        <option>Математика</option>
-        <option>Физика</option>
-    </select>
-    <button class="btn btn-primary add-btn" type="submit">Сформировать</button>
-</form>
+<div class="table-container">
+    <table class="table table-striped">
+        <thead>
+        <tr class="table-light">
+            <th>ФИО</th>
+            <th>Первичный балл</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-light" th:each="abit,state : ${abitList}">
+            <td><span th:text="${abit.name}"></span></td>
+            <td><span th:text="${results[state.index].result}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

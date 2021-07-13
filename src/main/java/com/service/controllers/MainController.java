@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class MainController {
 
@@ -85,6 +88,47 @@ public class MainController {
     @GetMapping("/abit-service")
     public String showService() {
         return "abitService";
+    }
+
+    @PostMapping("/view-results")
+    public String showResults(@RequestParam(value = "serviceSelect") String subject, Model model1, Model model2) {
+        Iterable<Abit> abits = abitRepo.findAll();
+        List<Abit> abitList = new ArrayList<>();
+        for (Abit abit : abits) if (abit.getSubjects().contains(subject)) abitList.add(abit);
+        model1.addAttribute("abitList", abitList);
+
+        if (subject.equals("Русский")) {
+            Iterable<RusRes> rusRes = rusResRepo.findAll();
+            List<RusRes> rusList = new ArrayList<>();
+            for (int i = 0; i < abitList.size(); i++) {
+                for (RusRes res : rusRes) {
+                    if(res.getIdabit().getIdabit() == abitList.get(i).getIdabit()) rusList.add(res);
+                }
+            }
+            model2.addAttribute("results", rusList);
+        }
+        else if(subject.equals("Математика")) {
+            Iterable<MathRes> mathRes = mathResRepo.findAll();
+            List<MathRes> mathList = new ArrayList<>();
+            for (int i = 0; i < abitList.size(); i++) {
+                for (MathRes res : mathRes) {
+                    if(res.getIdabit().getIdabit() == abitList.get(i).getIdabit()) mathList.add(res);
+                }
+            }
+            model2.addAttribute("results", mathList);
+        }
+        else {
+            Iterable<PhysRes> physRes = physResRepo.findAll();
+            List<PhysRes> physList = new ArrayList<>();
+            for (int i = 0; i < abitList.size(); i++) {
+                for (PhysRes res : physRes) {
+                    if(res.getIdabit().getIdabit() == abitList.get(i).getIdabit()) physList.add(res);
+                }
+            }
+            model2.addAttribute("results", physList);
+        }
+
+        return "results";
     }
 
 
