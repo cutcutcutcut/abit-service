@@ -4,6 +4,9 @@ import com.service.domain.Abit;
 import com.service.domain.MathRes;
 import com.service.domain.PhysRes;
 import com.service.domain.RusRes;
+import com.service.extraClasses.MathMap;
+import com.service.extraClasses.PhysMap;
+import com.service.extraClasses.RusMap;
 import com.service.repos.AbitRepo;
 import com.service.repos.MathResRepo;
 import com.service.repos.PhysResRepo;
@@ -91,9 +94,10 @@ public class MainController {
     }
 
     @PostMapping("/view-results")
-    public String showResults(@RequestParam(value = "serviceSelect") String subject, Model model1, Model model2) {
+    public String showResults(@RequestParam(value = "serviceSelect") String subject, Model model1, Model model2, Model model3) {
         Iterable<Abit> abits = abitRepo.findAll();
         List<Abit> abitList = new ArrayList<>();
+        List<Integer> resValues = new ArrayList<>();
         for (Abit abit : abits) if (abit.getSubjects().contains(subject)) abitList.add(abit);
         model1.addAttribute("abitList", abitList);
 
@@ -102,7 +106,10 @@ public class MainController {
             List<RusRes> rusList = new ArrayList<>();
             for (int i = 0; i < abitList.size(); i++) {
                 for (RusRes res : rusRes) {
-                    if(res.getIdabit().getIdabit() == abitList.get(i).getIdabit()) rusList.add(res);
+                    if(res.getIdabit().getIdabit() == abitList.get(i).getIdabit()) {
+                        rusList.add(res);
+                        resValues.add(RusMap.getRes(res.getResult()));
+                    }
                 }
             }
             model2.addAttribute("results", rusList);
@@ -112,7 +119,10 @@ public class MainController {
             List<MathRes> mathList = new ArrayList<>();
             for (int i = 0; i < abitList.size(); i++) {
                 for (MathRes res : mathRes) {
-                    if(res.getIdabit().getIdabit() == abitList.get(i).getIdabit()) mathList.add(res);
+                    if(res.getIdabit().getIdabit() == abitList.get(i).getIdabit()) {
+                        mathList.add(res);
+                        resValues.add(MathMap.getRes(res.getResult()));
+                    }
                 }
             }
             model2.addAttribute("results", mathList);
@@ -122,12 +132,15 @@ public class MainController {
             List<PhysRes> physList = new ArrayList<>();
             for (int i = 0; i < abitList.size(); i++) {
                 for (PhysRes res : physRes) {
-                    if(res.getIdabit().getIdabit() == abitList.get(i).getIdabit()) physList.add(res);
+                    if(res.getIdabit().getIdabit() == abitList.get(i).getIdabit()) {
+                        physList.add(res);
+                        resValues.add(PhysMap.getRes(res.getResult()));
+                    }
                 }
             }
             model2.addAttribute("results", physList);
         }
-
+        model3.addAttribute("finalResults", resValues);
         return "results";
     }
 

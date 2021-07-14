@@ -35,12 +35,14 @@
         <tr class="table-light">
             <th>ФИО</th>
             <th>Первичный балл</th>
+            <th>Итоговый балл</th>
         </tr>
         </thead>
         <tbody>
         <tr class="table-light" th:each="abit,state : ${abitList}">
             <td><span th:text="${abit.name}"></span></td>
             <td><span th:text="${results[state.index].result}"></span></td>
+            <td><span th:text="${finalResults[state.index]}"></span></td>
         </tr>
         </tbody>
     </table>
