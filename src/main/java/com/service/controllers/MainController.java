@@ -1,16 +1,13 @@
 package com.service.controllers;
 
-import com.service.domain.Abit;
-import com.service.domain.MathRes;
-import com.service.domain.PhysRes;
-import com.service.domain.RusRes;
-import com.service.extraClasses.MathMap;
-import com.service.extraClasses.PhysMap;
-import com.service.extraClasses.RusMap;
 import com.service.repos.AbitRepo;
 import com.service.repos.MathResRepo;
 import com.service.repos.PhysResRepo;
 import com.service.repos.RusResRepo;
+import com.service.services.AbitService;
+import com.service.services.MathResService;
+import com.service.services.PhysResService;
+import com.service.services.RusResService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,8 +34,7 @@ public class MainController {
     private PhysResRepo physResRepo;
 
     @GetMapping
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="User") String name, Model model) {
-        model.addAttribute("name", name);
+    public String greeting() {
         return "emptyMapping";
     }
 
@@ -50,8 +46,7 @@ public class MainController {
 
     @PostMapping("/add-abit")
     public String addAbit(@RequestParam String name, @RequestParam(value = "select") String subjects, Model model) {
-        Abit abit = new Abit(name, subjects);
-        abitRepo.save(abit);
+        AbitService.addAbit(abitRepo, name, subjects);
         model.addAttribute("abits", abitRepo.findAll());
         return "addTable";
     }
@@ -61,24 +56,15 @@ public class MainController {
         if(abitRepo.findById(id).isPresent()){
             switch (subject){
                 case "Русский": {
-                    if (rusResRepo.findByIdabit(abitRepo.findById(id).get()) == null && abitRepo.findById(id).get().getSubjects().contains("Русский")) {
-                        RusRes rusRes = new RusRes(abitRepo.findById(id).get(), result);
-                        rusResRepo.save(rusRes);
-                    }
+                    RusResService.addResults(abitRepo, rusResRepo, id, result);
                     break;
                 }
                 case "Математика" : {
-                    if(mathResRepo.findByIdabit(abitRepo.findById(id).get()) == null && abitRepo.findById(id).get().getSubjects().contains("Математика")) {
-                        MathRes mathRes = new MathRes(abitRepo.findById(id).get(), result);
-                        mathResRepo.save(mathRes);
-                    }
+                    MathResService.addResults(abitRepo, mathResRepo, id, result);
                     break;
                 }
                 case "Физика" : {
-                    if (physResRepo.findByIdabit(abitRepo.findById(id).get()) == null && abitRepo.findById(id).get().getSubjects().contains("Физика")){
-                        PhysRes physRes = new PhysRes(abitRepo.findById(id).get(), result);
-                        physResRepo.save(physRes);
-                    }
+                    PhysResService.addResults(abitRepo, physResRepo, id, result);
                     break;
                 }
             }
@@ -95,50 +81,17 @@ public class MainController {
 
     @PostMapping("/view-results")
     public String showResults(@RequestParam(value = "serviceSelect") String subject, Model model1, Model model2, Model model3) {
-        Iterable<Abit> abits = abitRepo.findAll();
-        List<Abit> abitList = new ArrayList<>();
         List<Integer> resValues = new ArrayList<>();
-        for (Abit abit : abits) if (abit.getSubjects().contains(subject)) abitList.add(abit);
-        model1.addAttribute("abitList", abitList);
+        model1.addAttribute("abitList", AbitService.getAbitsBySubject(subject, abitRepo));
 
         if (subject.equals("Русский")) {
-            Iterable<RusRes> rusRes = rusResRepo.findAll();
-            List<RusRes> rusList = new ArrayList<>();
-            for (int i = 0; i < abitList.size(); i++) {
-                for (RusRes res : rusRes) {
-                    if(res.getIdabit().getIdabit() == abitList.get(i).getIdabit()) {
-                        rusList.add(res);
-                        resValues.add(RusMap.getRes(res.getResult()));
-                    }
-                }
-            }
-            model2.addAttribute("results", rusList);
+            model2.addAttribute("results", RusResService.getResults(abitRepo, rusResRepo, subject, resValues));
         }
         else if(subject.equals("Математика")) {
-            Iterable<MathRes> mathRes = mathResRepo.findAll();
-            List<MathRes> mathList = new ArrayList<>();
-            for (int i = 0; i < abitList.size(); i++) {
-                for (MathRes res : mathRes) {
-                    if(res.getIdabit().getIdabit() == abitList.get(i).getIdabit()) {
-                        mathList.add(res);
-                        resValues.add(MathMap.getRes(res.getResult()));
-                    }
-                }
-            }
-            model2.addAttribute("results", mathList);
+            model2.addAttribute("results", MathResService.getResults(abitRepo, mathResRepo, subject, resValues));
         }
         else {
-            Iterable<PhysRes> physRes = physResRepo.findAll();
-            List<PhysRes> physList = new ArrayList<>();
-            for (int i = 0; i < abitList.size(); i++) {
-                for (PhysRes res : physRes) {
-                    if(res.getIdabit().getIdabit() == abitList.get(i).getIdabit()) {
-                        physList.add(res);
-                        resValues.add(PhysMap.getRes(res.getResult()));
-                    }
-                }
-            }
-            model2.addAttribute("results", physList);
+            model2.addAttribute("results", PhysResService.getResults(abitRepo, physResRepo, subject, resValues));
         }
         model3.addAttribute("finalResults", resValues);
         return "results";
