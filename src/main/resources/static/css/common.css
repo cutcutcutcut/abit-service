@@ -6,7 +6,17 @@ body {
     -webkit-background-size: 100%;
     -o-background-size: 100%;
     background-size: cover;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
+
+}
+
+th{
+    cursor: pointer;
+}
+
+th.sorted[data-order="-1"]::after {
+    content: "▼"
+}
+
+th.sorted[data-order="1"]::after {
+    content: "▲"
 }
