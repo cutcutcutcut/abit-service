@@ -3,6 +3,13 @@ package com.service.extraClasses;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Класс со статической структурой данных - Map и методом для получения значения по ключу
+ * Класс соответствует вступительному испытанию по математике
+ * @author Алексей Бехтерев
+ * @version 1.0
+ */
+
 public class MathMap {
     private static final Map<Integer, Integer> map;
 
@@ -50,6 +57,12 @@ public class MathMap {
         map.put(40, 100);
     }
 
+    /**
+     * Статический метод по получению значения по ключу, принимаемому в параметрах
+     * Если такого ключа нет - возвращается 0
+     * @param key - ключ
+     * @return Integer
+     */
     public static Integer getRes(Integer key) {
         if (!map.containsKey(key)) {
             return 0;

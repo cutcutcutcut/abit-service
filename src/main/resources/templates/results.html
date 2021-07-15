@@ -33,15 +33,17 @@
     <table class="table table-striped table_sort">
         <thead>
         <tr class="table-light">
+            <th></th>
             <th>ФИО</th>
             <th>Первичный балл</th>
             <th>Итоговый балл</th>
         </tr>
         </thead>
         <tbody>
-        <tr class="table-light" th:each="abit,state : ${abitList}">
-            <td><span th:text="${abit.name}"></span></td>
-            <td><span th:text="${results[state.index].result}"></span></td>
+        <tr class="table-light" th:each="result,state : ${results}">
+            <td><span th:text="${state.index} + 1"></span></td>
+            <td><span th:text="${abitList[state.index].name}"></span></td>
+            <td><span th:text="${result.result}"></span></td>
             <td><span th:text="${finalResults[state.index]}"></span></td>
         </tr>
         </tbody>
