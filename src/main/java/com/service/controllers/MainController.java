@@ -56,7 +56,7 @@ public class MainController {
      * @return String
      */
     @GetMapping("/abits")
-    public String testDb(Model model) {
+    public String abitsTable(Model model) {
         model.addAttribute("abits", abitRepo.findAll());
         return "addTable";
     }
